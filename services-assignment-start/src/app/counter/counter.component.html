@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let status of usersActivity | keyvalue">
+    <span>User name -  {{status.key}} </span>
+    <span> | Inactive to Active - {{status.value.setToActive}}</span>
+    <span> | Active to Inactive - {{status.value.setToInActive}}</span>
+  </li>
+</ul>
