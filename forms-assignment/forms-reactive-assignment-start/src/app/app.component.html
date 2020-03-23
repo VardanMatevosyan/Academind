@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!--
+          Create a Form with the following Controls and Validators
+          1) Project Name (should not be empty)
+          2) Mail (should not be a empty and a valid email)
+          3) Project Status Dropdown, with three values: 'Stable', 'Critical', 'Finished'
+          4) Submit Button
+
+          Add your own Validator which doesn't allow "Test" as a Project Name
+
+          Also implement that Validator as an async Validator (replace the other one)
+
+          Upon submitting the form, simply print the value to the console
+      -->
+
+      <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit()">
+        <div id="user-data"
+             formGroupName="userData"
+        >
+          <div class="form-group">
+            <label for="projectName">Project name</label>
+            <input
+              formControlName="projectName"
+              type="text"
+              class="form-control"
+              id="projectName"
+            >
+            <span class="help-block" *ngIf="reactiveForm.get('userData.projectName').touched
+                                            && !reactiveForm.get('userData.projectName').valid
+                                            && reactiveForm.get('userData.projectName').errors !== null">
+
+               <span class="help-block" *ngIf="reactiveForm.get('userData.projectName').errors['forbiddenName']">
+              The name is forbidden
+              </span>
+               <span class="help-block" *ngIf="reactiveForm.get('userData.projectName').errors['required']">
+              Project name field is required
+              </span>
+
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              formControlName="email"
+              type="text"
+              class="form-control"
+              id="email"
+            >
+            <span class="help-block" *ngIf="!reactiveForm.get('userData.email').valid && reactiveForm.get('userData.email').touched">
+              Invalid email. Please try again
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="projectStatus">Project status</label>
+            <select
+              class="form-control"
+              id="projectStatus"
+              formControlName="projectStatus"
+            >
+              <option
+                *ngFor="let status of projectStatus"
+                [value]="status">
+                {{ status }}
+              </option>
+            </select>
+            <span class="help-block" *ngIf="reactiveForm.get('userData.projectStatus').value === ''
+                                            && reactiveForm.get('userData.projectStatus').touched
+                                            && !reactiveForm.get('userData.projectStatus').valid">
+              Please choose one of the subscriptions
+            </span>
+          </div>
+        </div>
+        <span class="help-block" *ngIf="!reactiveForm.valid && reactiveForm.touched">Form is invalid</span>
+
+        <button type="submit" class="btn btn-success"  [disabled]="!reactiveForm.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
